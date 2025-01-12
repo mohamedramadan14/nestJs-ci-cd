@@ -5,7 +5,7 @@ import { AppModule } from './../src/app.module';
 import { SignUpDto } from '../src/auth/dto/signup.dto';
 import mongoose from 'mongoose';
 import { LoginDto } from '../src/auth/dto/login.dto';
-import { Book, Category } from '../src/book/schemas/book.schema';
+import { Category } from '../src/book/schemas/book.schema';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
@@ -19,11 +19,12 @@ describe('AppController (e2e)', () => {
     description: 'Test Description',
     price: 100,
     category: Category.ADVENTURE,
-  }
+  };
   beforeAll(async () => {
     // More robust database connection and cleanup
     try {
-      const mongoUri = process.env.DB_URI || 'mongodb://localhost:27017/test-db';
+      const mongoUri =
+        process.env.DB_URI || 'mongodb://localhost:27017/test-db';
       await mongoose.connect(mongoUri);
       await mongoose.connection.db.dropDatabase();
     } catch (err) {
@@ -41,7 +42,6 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-
   afterAll(async () => {
     try {
       await mongoose.connection.db.dropDatabase();
@@ -54,13 +54,12 @@ describe('AppController (e2e)', () => {
   });
 
   describe('Auth Endpoints', () => {
-
     it('(POST) /auth/signup Register a new user with valid credentials', () => {
       const signUpDto: SignUpDto = {
-        name: "Test User",
-        email: "test@test.com",
-        password: "Test1234#",
-      }
+        name: 'Test User',
+        email: 'test@test.com',
+        password: 'Test1234#',
+      };
       return request(app.getHttpServer())
         .post('/auth/signup')
         .send(signUpDto)
@@ -72,9 +71,9 @@ describe('AppController (e2e)', () => {
     });
     it('(GET) /auth/login Login a user with valid credentials', () => {
       const loginDto: LoginDto = {
-        email: "test@test.com",
-        password: "Test1234#",
-      }
+        email: 'test@test.com',
+        password: 'Test1234#',
+      };
       return request(app.getHttpServer())
         .get('/auth/login')
         .send(loginDto)
@@ -88,9 +87,7 @@ describe('AppController (e2e)', () => {
   });
 
   describe('Book Endpoints', () => {
-
     it('(POST) /books Create a new book', () => {
-    
       return request(app.getHttpServer())
         .post('/books')
         .send(newBook)
